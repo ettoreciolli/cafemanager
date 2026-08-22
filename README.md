@@ -1,6 +1,8 @@
 # Cafe Manager
 
-A full-stack web app for running a small cafe: track orders, inventory, suppliers, deliveries, menu, and staff from a single dashboard.
+
+
+A demo full-stack web app for running a cafe: track orders, inventory, suppliers, deliveries, menu, and staff from a single dashboard.
 
 Built with a [Turborepo](https://turborepo.com) monorepo — a Next.js dashboard app backed by a shared Prisma/Postgres database package.
 
@@ -121,7 +123,7 @@ See `bun ordersim --help` for all flags (traffic styles, customer lists, custom 
 
 ## Webhook
 
-Your POS or the simulator can push an order to:
+The idea is that a POS would push an order to:
 
 ```
 POST /api/webhook/orders
