@@ -58,21 +58,24 @@ export function AppShell({
     <div className="flex min-h-full flex-1">
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-30 hidden flex-col border-r bg-card py-4 transition-[width] duration-200 md:flex px-3",
-          collapsed ? "w-16 " : "w-56 "
+          "fixed inset-y-0 left-0 z-30 hidden flex-col border-r bg-card py-4 transition-[width] duration-700 md:flex px-3 relative",
+          collapsed ? "w-16 " : "w-56"
         )}
       >
-        <div className={cn("mb-6 inline-flex items-center justify-center", collapsed ? "h-6" : "")}>
-          <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground mr-auto fixed left-4">
-            <CoffeeIcon className="size-4" />
+        <div className={cn("mb-6 inline-flex items-center justify-end gap-0", collapsed ? "h-6" : "")}>
+          <span className="flex h-8 w-8  items-center justify-center rounded-lg bg-card  mr-auto fixed left-0 pl-4 bg-white w-12 m-0 pt-0 pb-0 m-0 pr-0">
+            <div className="bg-primary h-8 w-8 rounded-lg flex items-center justify-center m-0 border border-black text-primary-foreground">
+        <CoffeeIcon className="size-4"/>
+            </div>
+            
           </span>
-          {!collapsed && (
-            <span className="font-heading font-semibold tracking-tight text-nowrap ml-10">Cafe Manager</span>
-          )}
+          
+            <span className={cn("font-heading font-semibold tracking-tight text-nowrap  flex justify-end overflow-hidden mr-2", collapsed ? "" : "")}>Cafe Manager</span>
+          
           <Button
             variant="ghost"
             size="icon-xs"
-            className={cn("absolute -right-10", collapsed ? "" : "")}
+            className={cn("absolute -right-6 top-0 rounded-tl-none m-0", collapsed ? "" : "")}
             onClick={() => setCollapsed((c) => !c)}
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
@@ -87,15 +90,26 @@ export function AppShell({
               href={item.href}
               title={item.label}
               className={cn(
-                "flex items-center rounded-lg text-sm font-medium transition-colors",
-                collapsed ? "justify-center py-2 px-2.5" : "gap-2 px-2.5 py-1.5",
+                "flex items-center rounded-lg text-sm justify-end font-medium transition-colors h-8 p-2 mr-2",
+                collapsed ? " " : "  ",
                 isActive(item.href)
                   ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  : " "
               )}
             >
-              <item.icon className="size-4 shrink-0 mr-auto" />
-              {!collapsed && item.label}
+              <div className={cn("fixed left-0 z-1 flex items-center rounded-lg h-8 w-12 pl-4 pr-0 justify-end bg-card ")} >
+                 <item.icon className={cn("h-8 w-8 p-2 m-0 rounded-lg transition-colors border", isActive(item.href)
+                  ? "bg-primary text-primary-foreground border-primary"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground bg-card border-muted")} />
+              </div>
+             
+              <p
+                className={cn(" m-0 p-0 h-5 flex justify-end", collapsed ? "" : "")}
+                style={{
+                  // transition: "width 700ms"
+                }}
+              >
+              {item.label}</p>
             </Link>
           ))}
         </nav>

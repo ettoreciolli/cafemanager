@@ -146,7 +146,7 @@ export function StaffDialog({
         </form>
         <DialogFooter>
           <DialogClose render={<Button variant="outline">Cancel</Button>} />
-          <Button type="submit" form="flexionForm" disabled={pending}>
+          <Button type="submit" form="staffForm" disabled={pending}>
             {pending ? "Saving..." : member ? "Save changes" : "Add member"}
           </Button>
         </DialogFooter>

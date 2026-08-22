@@ -175,7 +175,7 @@ export function SupplierDialog({
         </form>
         <DialogFooter>
           <DialogClose render={<Button variant="outline">Cancel</Button>} />
-          <Button type="submit" form="flexionForm" disabled={pending}>
+          <Button type="submit" form="supplierForm" disabled={pending}>
             {pending ? "Saving..." : "Add supplier"}
           </Button>
         </DialogFooter>

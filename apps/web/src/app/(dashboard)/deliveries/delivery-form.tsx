@@ -135,7 +135,7 @@ export function DeliveryDialog({ pairs }: { pairs: Pair[] }) {
         </form>
         <DialogFooter>
           <DialogClose render={<Button variant="outline">Cancel</Button>} />
-          <Button type="submit" form="flexionForm" disabled={pending}>
+          <Button type="submit" form="deliveryForm" disabled={pending}>
             {pending ? "Scheduling..." : "Schedule"}
           </Button>
         </DialogFooter>

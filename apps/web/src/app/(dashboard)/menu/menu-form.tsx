@@ -226,7 +226,7 @@ export function MenuItemDialog({
         </form>
         <DialogFooter>
           <DialogClose render={<Button variant="outline">Cancel</Button>} />
-          <Button type="submit" form="flexionForm" disabled={pending}>
+          <Button type="submit" form="menuItemForm" disabled={pending}>
             {pending ? "Saving..." : item ? "Save changes" : "Add item"}
           </Button>
         </DialogFooter>

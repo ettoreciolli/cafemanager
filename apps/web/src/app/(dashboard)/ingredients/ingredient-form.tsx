@@ -121,7 +121,7 @@ export function IngredientDialog({
         </datalist>
         <DialogFooter>
           <DialogClose render={<Button variant="outline">Cancel</Button>} />
-          <Button type="submit" form="flexionForm" disabled={pending}>
+          <Button type="submit" form="ingredientForm" disabled={pending}>
             {pending ? "Saving..." : ingredient ? "Save changes" : "Add ingredient"}
           </Button>
         </DialogFooter>
