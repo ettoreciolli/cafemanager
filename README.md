@@ -6,6 +6,10 @@ A demo full-stack web app for running a cafe: track orders, inventory, suppliers
 
 Built with a [Turborepo](https://turborepo.com) monorepo — a Next.js dashboard app backed by a shared Prisma/Postgres database package.
 
+## Disclaimer
+
+This app is intended as a demo and has not been security-tested or deployed.
+
 ## What it does
 
 - **Dashboard** — live revenue, profit, average order value, orders in progress, low-stock items, and top-selling items
