@@ -27,7 +27,8 @@ import { StaffDialog } from "./staff-form";
 export const dynamic = "force-dynamic";
 
 export default async function StaffPage() {
-  await requireUser();
+  const user = await requireUser();
+  const currency = user.currency;
 
   const staff = await db.staff.findMany({ orderBy: { name: "asc" } });
 
@@ -77,7 +78,7 @@ export default async function StaffPage() {
                     <TableCell>
                       <Badge variant="secondary">{m.role}</Badge>
                     </TableCell>
-                    <TableCell>{m.hourlyRate ? money(m.hourlyRate) + "/hr" : "—"}</TableCell>
+                    <TableCell>{m.hourlyRate ? money(m.hourlyRate, currency) + "/hr" : "—"}</TableCell>
                     <TableCell>
                       <Badge variant={m.active ? "default" : "ghost"}>
                         {m.active ? "Active" : "Inactive"}

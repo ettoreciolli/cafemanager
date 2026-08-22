@@ -28,7 +28,8 @@ export const dynamic = "force-dynamic";
 const ORDER_STATUSES = ["received", "preparing", "ready", "completed", "cancelled"];
 
 export default async function OrdersPage() {
-  await requireUser();
+  const user = await requireUser();
+  const currency = user.currency;
 
   const orders = await db.order.findMany({
     orderBy: [{ createdAt: "desc" }],
@@ -71,7 +72,7 @@ export default async function OrdersPage() {
         <Card>
           <CardHeader>
             <CardDescription>Revenue today</CardDescription>
-            <CardTitle className="text-2xl">{money(todayRevenue)}</CardTitle>
+            <CardTitle className="text-2xl">{money(todayRevenue, currency)}</CardTitle>
           </CardHeader>
         </Card>
       </div>
@@ -122,7 +123,7 @@ export default async function OrdersPage() {
                         {o.items.length === 0 && <span className="text-muted-foreground">—</span>}
                       </div>
                     </TableCell>
-                    <TableCell>{money(o.total, o.currency)}</TableCell>
+                    <TableCell>{money(o.total, currency)}</TableCell>
                     <TableCell className="text-muted-foreground">{o.source}</TableCell>
                     <TableCell className="text-muted-foreground">{dateTime(o.createdAt)}</TableCell>
                     <TableCell>

@@ -8,6 +8,19 @@ import { requireUser } from "@/lib/auth";
 
 export type ActionResult = { ok: boolean; message?: string };
 
+// ---------- Settings ----------
+
+export async function updateCurrency(currency: string): Promise<ActionResult> {
+  const user = await requireUser();
+  const code = currency.toUpperCase();
+  if (!/^[A-Z]{3}$/.test(code)) {
+    return { ok: false, message: "Invalid currency code." };
+  }
+  await db.user.update({ where: { id: user.id }, data: { currency: code } });
+  revalidateAll();
+  return { ok: true, message: `Currency set to ${code}` };
+}
+
 const REVALIDATE_ALL = ["/", "/menu", "/ingredients", "/suppliers", "/deliveries", "/orders", "/staff"];
 
 function revalidateAll() {

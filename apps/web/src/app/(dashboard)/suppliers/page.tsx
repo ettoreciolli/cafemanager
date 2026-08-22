@@ -27,7 +27,8 @@ import { SupplierDialog } from "./supplier-form";
 export const dynamic = "force-dynamic";
 
 export default async function SuppliersPage() {
-  await requireUser();
+  const user = await requireUser();
+  const currency = user.currency;
 
   const [suppliers, ingredients] = await Promise.all([
     db.supplier.findMany({
@@ -92,7 +93,7 @@ export default async function SuppliersPage() {
                             <Badge key={offer.id} variant="secondary">
                               {offer.ingredient.name}
                               <span className="text-muted-foreground">
-                                {" "}· {money(offer.price)}/{offer.ingredient.unit} · {number(offer.leadTimeDays)}d
+                                {" "}· {money(offer.price, currency)}/{offer.ingredient.unit} · {number(offer.leadTimeDays)}d
                               </span>
                             </Badge>
                           ))}

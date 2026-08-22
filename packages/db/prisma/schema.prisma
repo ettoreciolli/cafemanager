@@ -16,6 +16,7 @@ model User {
   passwordHash String? // null when Google-authenticated only
   googleId     String?  @unique
   provider     String   @default("password") // "password" | "google"
+  currency     String   @default("USD")
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 

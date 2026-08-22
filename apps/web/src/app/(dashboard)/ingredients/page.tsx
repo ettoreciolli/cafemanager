@@ -27,7 +27,8 @@ import { IngredientDialog } from "./ingredient-form";
 export const dynamic = "force-dynamic";
 
 export default async function IngredientsPage() {
-  await requireUser();
+  const user = await requireUser();
+  const currency = user.currency;
 
   const ingredients = await db.ingredient.findMany({
     orderBy: { name: "asc" },
@@ -87,7 +88,7 @@ export default async function IngredientsPage() {
                       <TableCell className="text-muted-foreground">
                         {number(ing.minStock)} {ing.unit}
                       </TableCell>
-                      <TableCell>{money(ing.costPerUnit, "USD")}/{ing.unit}</TableCell>
+                      <TableCell>{money(ing.costPerUnit, currency)}/{ing.unit}</TableCell>
                       <TableCell>
                         {ing.supplierOffers.length === 0 ? (
                           <span className="text-muted-foreground">—</span>

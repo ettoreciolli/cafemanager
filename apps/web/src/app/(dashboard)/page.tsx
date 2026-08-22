@@ -25,7 +25,8 @@ import { dateTime, money, number } from "@/lib/format";
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
-  await requireUser();
+  const user = await requireUser();
+  const currency = user.currency;
 
   const [orders, ingredients, deliveries] = await Promise.all([
     db.order.findMany({
@@ -82,10 +83,10 @@ export default async function DashboardPage() {
   const topItems = [...byItem.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6);
 
   const metrics = [
-    { label: "Today's sales", value: money(todayRevenue), sub: `${today.length} orders today` },
-    { label: "Total revenue", value: money(revenue), sub: `${valid.length} orders all time` },
-    { label: "Estimated profit", value: money(profit), sub: "revenue − ingredient costs" },
-    { label: "Avg order value", value: money(avgOrder), sub: "per non-cancelled order" },
+    { label: "Today's sales", value: money(todayRevenue, currency), sub: `${today.length} orders today` },
+    { label: "Total revenue", value: money(revenue, currency), sub: `${valid.length} orders all time` },
+    { label: "Estimated profit", value: money(profit, currency), sub: "revenue − ingredient costs" },
+    { label: "Avg order value", value: money(avgOrder, currency), sub: "per non-cancelled order" },
     { label: "Orders in progress", value: number(openOrders), sub: "received / preparing / ready" },
     { label: "Low stock", value: number(lowStock.length), sub: `${pendingDeliveries} deliveries pending` },
   ];
@@ -142,7 +143,7 @@ export default async function DashboardPage() {
                         {o.customerName ?? o.externalId ?? o.id.slice(0, 8)}
                       </TableCell>
                       <TableCell className="text-muted-foreground">{dateTime(o.createdAt)}</TableCell>
-                      <TableCell>{money(o.total, o.currency)}</TableCell>
+                      <TableCell>{money(o.total, currency)}</TableCell>
                       <TableCell>
                         <StatusBadge status={o.status} />
                       </TableCell>

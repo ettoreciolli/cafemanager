@@ -14,6 +14,7 @@ import {
   PackageIcon,
   PanelLeftCloseIcon,
   PanelLeftOpenIcon,
+  SettingsIcon,
   SunIcon,
   TruckIcon,
   UsersIcon,
@@ -31,6 +32,7 @@ const NAV = [
   { href: "/suppliers", label: "Suppliers", icon: TruckIcon },
   { href: "/deliveries", label: "Deliveries", icon: CalendarClockIcon },
   { href: "/staff", label: "Staff", icon: UsersIcon },
+  { href: "/settings", label: "Settings", icon: SettingsIcon },
 ];
 
 export function AppShell({

@@ -27,7 +27,8 @@ import { MenuItemDialog } from "./menu-form";
 export const dynamic = "force-dynamic";
 
 export default async function MenuPage() {
-  await requireUser();
+  const user = await requireUser();
+  const currency = user.currency;
 
   const [items, ingredients] = await Promise.all([
     db.menuItem.findMany({
@@ -84,7 +85,7 @@ export default async function MenuPage() {
                         )}
                       </div>
                     </TableCell>
-                    <TableCell>{money(item.price)}</TableCell>
+                    <TableCell>{money(item.price, currency)}</TableCell>
                     <TableCell>
                       {item.ingredients.length === 0 ? (
                         <span className="text-muted-foreground">—</span>
