@@ -1,0 +1,22 @@
+# packages
+packages/*/node_modules
+apps/*/node_modules
+node_modules
+
+# env
+.env
+.env.local
+.env.*.local
+
+# nextjs
+.next/
+out/
+
+# turbo
+.turbo/
+
+# logs
+*.log
+
+# os
+.DS_Store

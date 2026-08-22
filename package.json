@@ -1,0 +1,25 @@
+{
+  "name": "cafemanager",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "bun@1.3.14",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "turbo": "^2.3.0"
+  },
+  "scripts": {
+    "dev": "turbo dev",
+    "dev:web": "turbo dev --filter=@cafemanager/db --filter=web",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "clean": "turbo clean",
+    "sim": "bun ./packages/ordersim/src/index.ts",
+    "seed": "bun --cwd packages/db run db:seed",
+    "db:generate": "bun --cwd packages/db run db:generate",
+    "db:push": "bun --cwd packages/db run db:push"
+  }
+}
