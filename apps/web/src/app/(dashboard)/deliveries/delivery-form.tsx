@@ -41,14 +41,33 @@ function defaultScheduledAt() {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
-export function DeliveryDialog({ pairs }: { pairs: Pair[] }) {
+export function DeliveryDialog({
+  pairs,
+  defaultPrices = {},
+}: {
+  pairs: Pair[];
+  defaultPrices?: Record<string, number>;
+}) {
   const [open, setOpen] = React.useState(false);
   const [pending, setPending] = React.useState(false);
   const [pairKey, setPairKey] = React.useState("");
+  const [price, setPrice] = React.useState("");
 
   function onOpenChange(next: boolean) {
     setOpen(next);
-    if (next) setPairKey(pairs[0]?.key ?? "");
+    if (next) {
+      const first = pairs[0]?.key ?? "";
+      setPairKey(first);
+      const def = pairs[0] ? defaultPrices[pairs[0].ingredientId] : undefined;
+      setPrice(def === undefined ? "" : String(def));
+    }
+  }
+
+  function selectPair(key: string) {
+    setPairKey(key);
+    const pair = pairs.find((p) => p.key === key);
+    const def = pair ? defaultPrices[pair.ingredientId] : undefined;
+    setPrice(def === undefined ? "" : String(def));
   }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -63,6 +82,7 @@ export function DeliveryDialog({ pairs }: { pairs: Pair[] }) {
 
     const quantity = Number(form.get("quantity") ?? 0);
     const scheduledAt = String(form.get("scheduledAt") ?? "");
+    const priceValue = Number(price);
 
     if (!scheduledAt || quantity <= 0) {
       toast.error("Quantity and delivery time are required.");
@@ -76,6 +96,7 @@ export function DeliveryDialog({ pairs }: { pairs: Pair[] }) {
       quantity,
       scheduledAt: new Date(scheduledAt).toISOString(),
       status: "scheduled",
+      price: priceValue,
     });
     setPending(false);
 
@@ -104,7 +125,7 @@ export function DeliveryDialog({ pairs }: { pairs: Pair[] }) {
         <form id="deliveryForm" onSubmit={onSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <Label>Supplier / Ingredient</Label>
-            <Select value={pairKey} onValueChange={(v) => setPairKey(v ?? "")}>
+            <Select value={pairKey} onValueChange={(v) => selectPair(v ?? "")}>
               <SelectTrigger className="w-full">
                 <SelectValue />
               </SelectTrigger>
@@ -123,9 +144,23 @@ export function DeliveryDialog({ pairs }: { pairs: Pair[] }) {
               <Input id="quantity" name="quantity" type="number" min="0.001" step="any" required />
             </div>
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="scheduledAt">Scheduled for</Label>
-              <Input id="scheduledAt" name="scheduledAt" type="datetime-local" required defaultValue={defaultScheduledAt()} />
+              <Label htmlFor="price">Unit price</Label>
+              <Input
+                id="price"
+                name="price"
+                type="number"
+                inputMode="decimal"
+                min="0"
+                step="0.01"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                placeholder="0.00"
+              />
             </div>
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="scheduledAt">Scheduled for</Label>
+            <Input id="scheduledAt" name="scheduledAt" type="datetime-local" required defaultValue={defaultScheduledAt()} />
           </div>
           {pairKey && (
             <p className="text-xs text-muted-foreground">

@@ -198,6 +198,7 @@ export async function scheduleDelivery(input: {
   quantity: number;
   scheduledAt: string; // ISO datetime
   status?: string;
+  price?: number;
 }): Promise<ActionResult> {
   await requireUser();
   const delivery = await db.delivery.create({
@@ -207,6 +208,7 @@ export async function scheduleDelivery(input: {
       quantity: input.quantity,
       scheduledAt: new Date(input.scheduledAt),
       status: input.status ?? "scheduled",
+      price: input.price ?? 0,
     },
   });
   revalidateAll();

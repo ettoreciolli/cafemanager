@@ -76,11 +76,12 @@ model SupplierIngredient {
 }
 
 model Delivery {
-  id             String   @id @default(cuid())
-  ingredientId   String
-  supplierId     String
-  status         String   @default("scheduled") // scheduled | in_transit | delivered | cancelled
-  quantity       Float    @default(0)
+  id           String   @id @default(cuid())
+  ingredientId String
+  supplierId   String
+  status       String   @default("scheduled") // scheduled | in_transit | delivered | cancelled
+  price        Float    @default(0) // snapshot of the negotiated unit price at delivery time
+  quantity     Float    @default(0)
   scheduledAt    DateTime
   deliveredAt    DateTime?
   createdAt      DateTime @default(now())

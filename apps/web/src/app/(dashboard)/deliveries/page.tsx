@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/table";
 import { deleteDelivery, updateDeliveryStatus } from "@/lib/actions";
 import { requireUser } from "@/lib/auth";
-import { getDeliveries, getSupplierIngredientPairs } from "@/dal";
+import { getDeliveries, getSupplierIngredientPairs, getIngredientPrices } from "@/dal";
 import { dateTime, number } from "@/lib/format";
 
 import { DeliveryDialog } from "./delivery-form";
@@ -44,12 +44,15 @@ export default async function DeliveriesPage() {
     ingredientUnit: p.ingredient.unit,
   }));
 
+  const ingredientIds = pairOptions.map((p) => p.ingredientId);
+  const defaultPrices = await getIngredientPrices(ingredientIds);
+
   return (
     <>
       <PageHeader
         title="Deliveries"
         description="Schedule and track ingredient deliveries from suppliers"
-        action={<DeliveryDialog pairs={pairOptions} />}
+        action={<DeliveryDialog pairs={pairOptions} defaultPrices={defaultPrices} />}
       />
 
       {deliveries.length === 0 ? (
