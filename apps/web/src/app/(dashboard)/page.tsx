@@ -1,7 +1,5 @@
 import Link from "next/link";
 
-import { db } from "@cafemanager/db";
-
 import { PageHeader } from "@/components/page-header";
 import { StatusBadge } from "@/components/status-badge";
 import {
@@ -20,6 +18,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { requireUser } from "@/lib/auth";
+import { getDashboardOrders, getIngredients, getDeliveries } from "@/dal";
 import { dateTime, money, number } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -29,19 +28,9 @@ export default async function DashboardPage() {
   const currency = user.currency;
 
   const [orders, ingredients, deliveries] = await Promise.all([
-    db.order.findMany({
-      orderBy: { createdAt: "desc" },
-      take: 1000,
-      include: {
-        items: {
-          include: {
-            menuItem: { include: { ingredients: { include: { ingredient: true } } } },
-          },
-        },
-      },
-    }),
-    db.ingredient.findMany({ orderBy: { name: "asc" } }),
-    db.delivery.findMany({ orderBy: { scheduledAt: "asc" }, take: 200 }),
+    getDashboardOrders(),
+    getIngredients(),
+    getDeliveries(),
   ]);
 
   function orderCost(order: (typeof orders)[number]) {

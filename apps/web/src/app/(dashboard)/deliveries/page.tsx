@@ -1,5 +1,3 @@
-import { db } from "@cafemanager/db";
-
 import { DeleteButton } from "@/components/delete-button";
 import { PageHeader } from "@/components/page-header";
 import { StatusBadge } from "@/components/status-badge";
@@ -21,6 +19,7 @@ import {
 } from "@/components/ui/table";
 import { deleteDelivery, updateDeliveryStatus } from "@/lib/actions";
 import { requireUser } from "@/lib/auth";
+import { getDeliveries, getSupplierIngredientPairs } from "@/dal";
 import { dateTime, number } from "@/lib/format";
 
 import { DeliveryDialog } from "./delivery-form";
@@ -32,15 +31,9 @@ const DELIVERY_STATUSES = ["scheduled", "in_transit", "delivered", "cancelled"];
 export default async function DeliveriesPage() {
   await requireUser();
 
-  const deliveries = await db.delivery.findMany({
-    orderBy: [{ scheduledAt: "desc" }],
-    include: { ingredient: true, supplier: true },
-  });
+  const deliveries = await getDeliveries();
 
-  const pairs = await db.supplierIngredient.findMany({
-    include: { supplier: true, ingredient: true },
-    orderBy: { ingredient: { name: "asc" } },
-  });
+  const pairs = await getSupplierIngredientPairs();
 
   const pairOptions = pairs.map((p) => ({
     key: `${p.supplierId}:${p.ingredientId}`,

@@ -1,7 +1,5 @@
 import Link from "next/link";
 
-import { db } from "@cafemanager/db";
-
 import { DeleteButton } from "@/components/delete-button";
 import { PageHeader } from "@/components/page-header";
 import { StatusBadge } from "@/components/status-badge";
@@ -23,6 +21,7 @@ import {
 } from "@/components/ui/table";
 import { deleteOrder, updateOrderStatus } from "@/lib/actions";
 import { requireUser } from "@/lib/auth";
+import { getOrdersWithItems } from "@/dal";
 import { dateTime, money, number } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -33,10 +32,7 @@ export default async function OrdersPage() {
   const user = await requireUser();
   const currency = user.currency;
 
-  const orders = await db.order.findMany({
-    orderBy: [{ createdAt: "desc" }],
-    include: { items: true },
-  });
+  const orders = await getOrdersWithItems();
 
   const open = orders.filter((o) => ["received", "preparing", "ready"].includes(o.status)).length;
   const today = orders.filter((o) => {

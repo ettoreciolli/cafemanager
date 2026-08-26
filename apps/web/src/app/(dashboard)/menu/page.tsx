@@ -1,5 +1,3 @@
-import { db } from "@cafemanager/db";
-
 import { DeleteButton } from "@/components/delete-button";
 import { PageHeader } from "@/components/page-header";
 import { Badge } from "@/components/ui/badge";
@@ -20,6 +18,7 @@ import {
 } from "@/components/ui/table";
 import { deleteMenuItem } from "@/lib/actions";
 import { requireUser } from "@/lib/auth";
+import { getMenuItemsWithIngredients, getIngredients } from "@/dal";
 import { money, number } from "@/lib/format";
 
 import { MenuItemDialog } from "./menu-form";
@@ -31,11 +30,8 @@ export default async function MenuPage() {
   const currency = user.currency;
 
   const [items, ingredients] = await Promise.all([
-    db.menuItem.findMany({
-      orderBy: { name: "asc" },
-      include: { ingredients: { include: { ingredient: true }, orderBy: { ingredient: { name: "asc" } } } },
-    }),
-    db.ingredient.findMany({ orderBy: { name: "asc" } }),
+    getMenuItemsWithIngredients(),
+    getIngredients(),
   ]);
 
   return (

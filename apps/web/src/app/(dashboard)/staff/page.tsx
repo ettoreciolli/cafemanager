@@ -1,5 +1,3 @@
-import { db } from "@cafemanager/db";
-
 import { DeleteButton } from "@/components/delete-button";
 import { PageHeader } from "@/components/page-header";
 import { Badge } from "@/components/ui/badge";
@@ -20,6 +18,7 @@ import {
 } from "@/components/ui/table";
 import { deleteStaffMember } from "@/lib/actions";
 import { requireUser } from "@/lib/auth";
+import { getStaff } from "@/dal";
 import { money } from "@/lib/format";
 
 import { StaffDialog } from "./staff-form";
@@ -30,7 +29,7 @@ export default async function StaffPage() {
   const user = await requireUser();
   const currency = user.currency;
 
-  const staff = await db.staff.findMany({ orderBy: { name: "asc" } });
+  const staff = await getStaff();
 
   return (
     <>

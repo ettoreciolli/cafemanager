@@ -2,8 +2,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeftIcon } from "lucide-react";
 
-import { db } from "@cafemanager/db";
-
 import { DeleteButton } from "@/components/delete-button";
 import { PageHeader } from "@/components/page-header";
 import { StatusBadge } from "@/components/status-badge";
@@ -25,6 +23,7 @@ import {
 } from "@/components/ui/table";
 import { deleteOrder, updateOrderStatus } from "@/lib/actions";
 import { requireUser } from "@/lib/auth";
+import { getOrderById } from "@/dal";
 import { dateTime, money, number } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -40,10 +39,7 @@ export default async function OrderDetailPage({
   const user = await requireUser();
   const currency = user.currency;
 
-  const order = await db.order.findUnique({
-    where: { id },
-    include: { items: true },
-  });
+  const order = await getOrderById(id);
 
   if (!order) notFound();
 

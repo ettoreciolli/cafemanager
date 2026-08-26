@@ -1,4 +1,5 @@
 import { db } from "@cafemanager/db";
+import { getOrderByExternalId } from "@/dal";
 
 type IncomingItem = {
   name: string;
@@ -41,7 +42,7 @@ export async function POST(req: Request) {
   }
 
   if (body.externalId) {
-    const existing = await db.order.findUnique({ where: { externalId: body.externalId } });
+    const existing = await getOrderByExternalId(body.externalId);
     if (existing) {
       return Response.json({ ok: true, id: existing.id, duplicate: true });
     }

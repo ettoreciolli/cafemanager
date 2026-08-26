@@ -1,5 +1,3 @@
-import { db } from "@cafemanager/db";
-
 import { DeleteButton } from "@/components/delete-button";
 import { PageHeader } from "@/components/page-header";
 import { Badge } from "@/components/ui/badge";
@@ -20,6 +18,7 @@ import {
 } from "@/components/ui/table";
 import { deleteSupplier } from "@/lib/actions";
 import { requireUser } from "@/lib/auth";
+import { getSuppliersWithIngredients, getIngredients } from "@/dal";
 import { money, number } from "@/lib/format";
 
 import { SupplierDialog } from "./supplier-form";
@@ -31,11 +30,8 @@ export default async function SuppliersPage() {
   const currency = user.currency;
 
   const [suppliers, ingredients] = await Promise.all([
-    db.supplier.findMany({
-      orderBy: { name: "asc" },
-      include: { ingredients: { include: { ingredient: true }, orderBy: { ingredient: { name: "asc" } } } },
-    }),
-    db.ingredient.findMany({ orderBy: { name: "asc" } }),
+    getSuppliersWithIngredients(),
+    getIngredients(),
   ]);
 
   return (
