@@ -41,6 +41,7 @@ export function MenuItemDialog({
   const [open, setOpen] = React.useState(false);
   const [pending, setPending] = React.useState(false);
   const [available, setAvailable] = React.useState(item ? item.available : true);
+  const [price, setPrice] = React.useState<string>(item ? item.price.toFixed(2) : "");
   const [selected, setSelected] = React.useState<Record<string, number>>(() => {
     const init: Record<string, number> = {};
     if (item) {
@@ -48,11 +49,11 @@ export function MenuItemDialog({
     }
     return init;
   });
-
   function onOpenChange(next: boolean) {
     setOpen(next);
     if (next) {
       setAvailable(item ? item.available : true);
+      setPrice(item ? item.price.toFixed(2) : "");
       const init: Record<string, number> = {};
       if (item) {
         for (const link of item.ingredients) init[link.ingredientId] = link.quantity;
@@ -74,14 +75,14 @@ export function MenuItemDialog({
     setSelected((prev) => ({ ...prev, [id]: qty }));
   }
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
 
     const input = {
       name: String(form.get("name") ?? "").trim(),
       description: (form.get("description") as string) || null,
-      price: Number(form.get("price") ?? 0),
+      price: Number(price),
       available,
       imageUrl: (form.get("imageUrl") as string) || null,
       ingredients: Object.entries(selected)
@@ -142,7 +143,20 @@ export function MenuItemDialog({
             </div>
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="price">Price</Label>
-              <Input id="price" name="price" type="number" min="0" step="0.01" required defaultValue={item?.price} />
+              <Input
+                  id="price"
+                  name="price"
+                  type="text"
+                  inputMode="decimal"
+                  min="0"
+                  required
+                  value={price}
+                  onChange={(e) => {
+                    if (/^\d*\.?\d{0,2}$/.test(e.target.value)) setPrice(e.target.value);
+                  }}
+                  onBlur={() => setPrice((Number(price) || 0).toFixed(2))}
+                  placeholder="0.00"
+                />
             </div>
           </div>
           <div className="flex flex-col gap-1.5">
