@@ -65,7 +65,7 @@ export function AppShell({
         )}
       >
         <div className={cn("mb-6 inline-flex items-center justify-end gap-0", collapsed ? "h-6" : "")}>
-          <span className="flex h-8 w-8  items-center justify-center rounded-lg bg-card  mr-auto fixed left-0 pl-4 bg-white w-12 m-0 pt-0 pb-0 m-0 pr-0">
+          <span className="flex h-8 w-8  items-center justify-center rounded-lg bg-card  mr-auto fixed left-0 pl-4 w-12 m-0 pt-0 pb-0 m-0 pr-0">
             <div className="bg-primary h-8 w-8 rounded-lg flex items-center justify-center m-0 border border-black text-primary-foreground">
         <CoffeeIcon className="size-4"/>
             </div>
