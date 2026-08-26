@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { db } from "@cafemanager/db";
 
 import { DeleteButton } from "@/components/delete-button";
@@ -110,7 +112,12 @@ export default async function OrdersPage() {
                 {orders.map((o) => (
                   <TableRow key={o.id}>
                     <TableCell>
-                      <span className="font-mono text-xs">{o.externalId ?? o.id.slice(0, 8)}</span>
+                      <Link
+                        href={`/orders/${o.id}`}
+                        className="font-mono text-xs text-foreground hover:text-primary hover:underline"
+                      >
+                        {o.externalId ?? o.id.slice(0, 8)}
+                      </Link>
                     </TableCell>
                     <TableCell className="font-medium">{o.customerName ?? "—"}</TableCell>
                     <TableCell>
