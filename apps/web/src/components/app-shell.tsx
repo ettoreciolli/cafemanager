@@ -60,7 +60,7 @@ export function AppShell({
     <div className="flex min-h-full flex-1">
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-30 hidden flex-col border-r bg-card py-4 transition-[width] duration-700 md:flex px-3 relative",
+          "fixed inset-y-0 left-0 z-30 hidden flex-col border-r bg-card py-4 transition-[width] duration-300 md:flex px-3 relative",
           collapsed ? "w-16 " : "w-56"
         )}
       >
