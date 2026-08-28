@@ -57,8 +57,7 @@ export default async function IngredientsPage() {
                 <TableRow>
                   <TableHead>Ingredient</TableHead>
                   <TableHead>Stock</TableHead>
-                  <TableHead>Reorder at</TableHead>
-                  <TableHead>Cost / unit</TableHead>
+                  <TableHead>Latest price</TableHead>
                   <TableHead>Suppliers</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
@@ -66,6 +65,7 @@ export default async function IngredientsPage() {
               <TableBody>
                 {ingredients.map((ing) => {
                   const low = ing.stockQuantity <= ing.minStock;
+                  const price = ing.Delivery.length === 1 ? ing.Delivery[0].price : undefined;
                   return (
                     <TableRow key={ing.id}>
                       <TableCell>
@@ -79,17 +79,17 @@ export default async function IngredientsPage() {
                         {low && <span className="ml-1.5"><Badge variant="destructive">low</Badge></span>}
                       </TableCell>
                       <TableCell className="text-muted-foreground">
-                        {number(ing.minStock)} {ing.unit}
+                        {price ?? "Never delivered"}
                       </TableCell>
-                      <TableCell>{money(ing.costPerUnit, currency)}/{ing.unit}</TableCell>
                       <TableCell>
-                        {ing.supplierOffers.length === 0 ? (
-                          <span className="text-muted-foreground">—</span>
+                        {ing.SupplierIngredient.length === 0 ? (
+                          <span className="text-muted-foreground">None</span>
                         ) : (
                           <div className="flex flex-wrap gap-1">
-                            {ing.supplierOffers.map((o) => (
-                              <Badge key={o.id} variant="secondary">{o.supplier.name}</Badge>
-                            ))}
+                            {/* {ing.SupplierIngredient.map((o) => (
+                              <Badge key={o.id} variant="secondary">{o.Supplier.name}</Badge>
+                            ))} */}
+                              {ing.SupplierIngredient.length}
                           </div>
                         )}
                       </TableCell>
@@ -102,7 +102,6 @@ export default async function IngredientsPage() {
                               unit: ing.unit,
                               stockQuantity: ing.stockQuantity,
                               minStock: ing.minStock,
-                              costPerUnit: ing.costPerUnit,
                             }}
                           />
                           <DeleteButton

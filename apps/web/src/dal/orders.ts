@@ -5,14 +5,14 @@ import { db } from "@cafemanager/db";
 export function getOrdersWithItems() {
   return db.order.findMany({
     orderBy: [{ createdAt: "desc" }],
-    include: { items: true },
+    include: { OrderItem: true },
   });
 }
 
 export function getOrderById(id: string) {
   return db.order.findUnique({
     where: { id },
-    include: { items: true },
+    include: { OrderItem: true },
   });
 }
 
@@ -25,11 +25,13 @@ export function getDashboardOrders() {
     orderBy: { createdAt: "desc" },
     take: 1000,
     include: {
-      items: {
+      OrderItem: {
         include: {
-          menuItem: { include: { ingredients: { include: { ingredient: true } } } },
+          MenuItem: { include: { MenuItemIngredient: { include: { Ingredient: true } } } },
         },
       },
     },
   });
 }
+
+export type OrderWithItems = Awaited<ReturnType<typeof getOrdersWithItems>>[number]

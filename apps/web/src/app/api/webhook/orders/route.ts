@@ -1,5 +1,6 @@
 import { db } from "@cafemanager/db";
 import { getOrderByExternalId } from "@/dal";
+import { revalidatePath } from "next/cache";
 
 type IncomingItem = {
   name: string;

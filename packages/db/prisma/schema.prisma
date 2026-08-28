@@ -1,162 +1,140 @@
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-// ---------- Auth / Users ----------
-
-model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  name         String?
-  passwordHash String? // null when Google-authenticated only
-  googleId     String?  @unique
-  provider     String   @default("password") // "password" | "google"
-  currency     String   @default("USD")
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  sessions Session[]
-}
-
-model Session {
-  id        String   @id @default(cuid())
-  userId    String
-  token     String   @unique
-  expiresAt DateTime
-  createdAt DateTime @default(now())
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-// ---------- Inventory ----------
-
-model Ingredient {
-  id            String   @id @default(cuid())
-  name          String
-  unit          String // e.g. "g", "ml", "pcs"
-  stockQuantity Float    @default(0)
-  minStock      Float    @default(0)
-  costPerUnit   Float    @default(0)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  menuItemLinks MenuItemIngredient[]
-  supplierOffers SupplierIngredient[]
-  deliveries    Delivery[]
-}
-
-model Supplier {
-  id        String   @id @default(cuid())
-  name      String
-  contact   String?
-  email     String?
-  address   String?
-  createdAt DateTime @default(now())
-
-  ingredients SupplierIngredient[]
-  deliveries  Delivery[]
-}
-
-model SupplierIngredient {
-  id            String @id @default(cuid())
-  supplierId    String
-  ingredientId  String
-  price         Float  @default(0)
-  leadTimeDays  Int    @default(1)
-
-  supplier   Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
-  ingredient Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
-
-  @@unique([supplierId, ingredientId])
 }
 
 model Delivery {
-  id           String   @id @default(cuid())
+  id           String     @id @default(uuid())
   ingredientId String
   supplierId   String
-  status       String   @default("scheduled") // scheduled | in_transit | delivered | cancelled
-  price        Float    @default(0) // snapshot of the negotiated unit price at delivery time
-  quantity     Float    @default(0)
-  scheduledAt    DateTime
-  deliveredAt    DateTime?
-  createdAt      DateTime @default(now())
-
-  ingredient  Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
-  supplier    Supplier   @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  status       String     @default("scheduled")
+  quantity     Float      @default(0)
+  scheduledAt  DateTime
+  deliveredAt  DateTime?
+  createdAt    DateTime   @default(now())
+  price        Float      @default(0)
+  Ingredient   Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+  Supplier     Supplier   @relation(fields: [supplierId], references: [id], onDelete: Cascade)
 }
 
-// ---------- Menu ----------
+model Ingredient {
+  id                 String               @id @default(uuid())
+  name               String
+  unit               String
+  stockQuantity      Float                @default(0)
+  minStock           Float                @default(0)
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  Delivery           Delivery[]
+  MenuItemIngredient MenuItemIngredient[]
+  SupplierIngredient SupplierIngredient[]
+}
 
 model MenuItem {
-  id           String   @id @default(cuid())
-  name         String
-  description  String?
-  price        Float
-  imageUrl     String?
-  available    Boolean  @default(true)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  ingredients MenuItemIngredient[]
-  orderItems  OrderItem[]
+  id                 String               @id @default(uuid())
+  name               String
+  description        String?
+  price              Float
+  imageUrl           String?
+  available          Boolean              @default(true)
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  MenuItemIngredient MenuItemIngredient[]
+  OrderItem          OrderItem[]
 }
 
 model MenuItemIngredient {
-  id           String @id @default(cuid())
+  id           String     @id @default(uuid())
   menuItemId   String
   ingredientId String
-  quantity     Float  @default(1)
-
-  menuItem   MenuItem   @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
-  ingredient Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+  quantity     Float      @default(1)
+  Ingredient   Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+  MenuItem     MenuItem   @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
 
   @@unique([menuItemId, ingredientId])
 }
 
-// ---------- Orders ----------
-
 model Order {
-  id           String   @id @default(cuid())
-  externalId   String?  @unique
-  customerName String?
+  id            String      @id @default(uuid())
+  externalId    String?     @unique
+  customerName  String?
   customerEmail String?
-  status       String   @default("received") // received | preparing | ready | completed | cancelled
-  total        Float    @default(0)
-  currency     String   @default("USD")
-  source       String   @default("webhook") // webhook | manual | sim
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  items OrderItem[]
+  status        String      @default("received")
+  total         Float       @default(0)
+  currency      String      @default("USD")
+  source        String      @default("webhook")
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  OrderItem     OrderItem[]
 }
 
-// ---------- Staff ----------
+model OrderItem {
+  id         String    @id @default(uuid())
+  orderId    String
+  menuItemId String?
+  name       String
+  quantity   Int       @default(1)
+  MenuItem   MenuItem? @relation(fields: [menuItemId], references: [id])
+  Order      Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
 
 model Staff {
-  id         String   @id @default(cuid())
+  id         String   @id @default(uuid())
   name       String
   email      String?  @unique
   phone      String?
-  role       String   @default("staff") // barista | manager | cook | cashier ...
+  role       String   @default("staff")
   hourlyRate Float    @default(0)
   active     Boolean  @default(true)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
 
-model OrderItem {
-  id         String  @id @default(cuid())
-  orderId    String
-  menuItemId String?
-  name       String  // snapshot at order time
-  quantity   Int     @default(1)
-  unitPrice  Float   @default(0)
+model Supplier {
+  id                 String               @id @default(uuid())
+  name               String
+  contact            String?
+  email              String?
+  address            String?
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt 
+  Delivery           Delivery[]
+  SupplierIngredient SupplierIngredient[]
+}
 
-  order    Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  menuItem MenuItem? @relation(fields: [menuItemId], references: [id])
+model SupplierIngredient {
+  id           String     @id @default(uuid())
+  supplierId   String
+  ingredientId String
+  leadTimeDays Int        @default(1)
+  Ingredient   Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+  Supplier     Supplier   @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+
+  @@unique([supplierId, ingredientId])
+}
+
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  name         String?
+  passwordHash String?
+  googleId     String?   @unique
+  provider     String    @default("password")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  currency     String    @default("USD")
+  Session      Session[]
 }

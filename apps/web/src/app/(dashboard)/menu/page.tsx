@@ -83,12 +83,12 @@ export default async function MenuPage() {
                     </TableCell>
                     <TableCell>{money(item.price, currency)}</TableCell>
                     <TableCell>
-                      {item.ingredients.length === 0 ? (
+                      {item.MenuItemIngredient.length === 0 ? (
                         <span className="text-muted-foreground">—</span>
                       ) : (
                         <span className="line-clamp-2 max-w-60 text-muted-foreground">
-                          {item.ingredients
-                            .map((l) => `${number(l.quantity)} ${l.ingredient.unit} ${l.ingredient.name}`)
+                          {item.MenuItemIngredient
+                            .map((l) => `${number(l.quantity)} ${l.Ingredient.unit} ${l.Ingredient.name}`)
                             .join(", ")}
                         </span>
                       )}
@@ -108,7 +108,7 @@ export default async function MenuPage() {
                             price: item.price,
                             available: item.available,
                             imageUrl: item.imageUrl,
-                            ingredients: item.ingredients.map((l) => ({
+                            ingredients: item.MenuItemIngredient.map((l) => ({
                               ingredientId: l.ingredientId,
                               quantity: l.quantity,
                             })),

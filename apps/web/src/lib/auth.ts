@@ -33,7 +33,7 @@ export async function destroySession() {
   const store = await cookies();
   const token = store.get(SESSION_COOKIE)?.value;
   if (token) {
-    await db.session.deleteMany({ where: { token } }).catch(() => {});
+    await db.session.deleteMany({ where: { token } }).catch(() => { });
   }
   store.delete(SESSION_COOKIE);
 }
@@ -45,11 +45,11 @@ export const getSession = cache(async () => {
 
   const session = await db.session.findUnique({
     where: { token },
-    include: { user: true },
+    include: { User: true },
   });
 
   if (!session || session.expiresAt < new Date()) {
-    await db.session.deleteMany({ where: { token } }).catch(() => {});
+    await db.session.deleteMany({ where: { token } }).catch(() => { });
     return null;
   }
 
@@ -61,5 +61,5 @@ export async function requireUser() {
   if (!session) {
     redirect("/login");
   }
-  return session.user;
+  return session.User;
 }

@@ -16,7 +16,7 @@ export default async function DashboardLayout({
   }
 
   return (
-    <AppShell userName={session.user.name ?? session.user.email}>
+    <AppShell userName={session.User.name ?? session.User.email}>
       {children}
     </AppShell>
   );

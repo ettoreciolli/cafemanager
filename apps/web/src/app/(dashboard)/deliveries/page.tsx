@@ -38,10 +38,10 @@ export default async function DeliveriesPage() {
   const pairOptions = pairs.map((p) => ({
     key: `${p.supplierId}:${p.ingredientId}`,
     supplierId: p.supplierId,
-    supplierName: p.supplier.name,
+    supplierName: p.Supplier.name,
     ingredientId: p.ingredientId,
-    ingredientName: p.ingredient.name,
-    ingredientUnit: p.ingredient.unit,
+    ingredientName: p.Ingredient.name,
+    ingredientUnit: p.Ingredient.unit,
   }));
 
   const ingredientIds = pairOptions.map((p) => p.ingredientId);
@@ -85,11 +85,11 @@ export default async function DeliveriesPage() {
                 {deliveries.map((d) => (
                   <TableRow key={d.id}>
                     <TableCell className="font-medium">
-                      {d.ingredient.name}
-                      <span className="ml-1 text-xs text-muted-foreground">({d.ingredient.unit})</span>
+                      {d.Ingredient.name}
+                      <span className="ml-1 text-xs text-muted-foreground">({d.Ingredient.unit})</span>
                     </TableCell>
-                    <TableCell className="text-muted-foreground">{d.supplier.name}</TableCell>
-                    <TableCell>{number(d.quantity)} {d.ingredient.unit}</TableCell>
+                    <TableCell className="text-muted-foreground">{d.Supplier.name}</TableCell>
+                    <TableCell>{number(d.quantity)} {d.Ingredient.unit}</TableCell>
                     <TableCell className="text-muted-foreground">{dateTime(d.scheduledAt)}</TableCell>
                     <TableCell className="text-muted-foreground">{d.deliveredAt ? dateTime(d.deliveredAt) : "—"}</TableCell>
                     <TableCell>

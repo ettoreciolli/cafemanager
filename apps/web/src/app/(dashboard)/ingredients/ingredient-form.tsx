@@ -28,7 +28,6 @@ export function IngredientDialog({
     unit: string;
     stockQuantity: number;
     minStock: number;
-    costPerUnit: number;
   };
 }) {
   const [open, setOpen] = React.useState(false);
@@ -105,10 +104,7 @@ export function IngredientDialog({
               <Label htmlFor="minStock">Reorder at</Label>
               <Input id="minStock" name="minStock" type="number" min="0" step="any" defaultValue={ingredient?.minStock ?? 0} />
             </div>
-            <div className="flex flex-col gap-1.5">
-              <Label htmlFor="costPerUnit">Cost / unit</Label>
-              <Input id="costPerUnit" name="costPerUnit" type="number" min="0" step="0.001" defaultValue={ingredient?.costPerUnit ?? 0} />
-            </div>
+            
           </div>
         </form>
         <datalist id="unitOpts">

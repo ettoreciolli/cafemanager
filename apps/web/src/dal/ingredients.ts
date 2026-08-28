@@ -10,8 +10,22 @@ export function getIngredientsWithSuppliers() {
   return db.ingredient.findMany({
     orderBy: { name: "asc" },
     include: {
-      _count: { select: { menuItemLinks: true, supplierOffers: true } },
-      supplierOffers: { include: { supplier: true } },
+      Delivery: {
+        select: { price: true },
+        take: 1
+      },
+      SupplierIngredient: {
+        select: {
+          Supplier: {
+            select: {
+              name: true
+            }
+          },
+          id: true
+        }
+      }
     },
   });
 }
+
+export type IngredientData = Awaited<ReturnType<typeof getIngredientsWithSuppliers>>[number]

@@ -33,21 +33,21 @@ export default async function DashboardPage() {
     getDeliveries(),
   ]);
 
-  function orderCost(order: (typeof orders)[number]) {
-    let cost = 0;
-    for (const item of order.items) {
-      if (!item.menuItem) continue;
-      for (const link of item.menuItem.ingredients) {
-        cost += link.quantity * link.ingredient.costPerUnit * item.quantity;
-      }
-    }
-    return cost;
-  }
+  // function orderCost(order: (typeof orders)[number]) {
+  //   let cost = 0;
+  //   for (const item of order.OrderItem) {
+  //     if (!item.MenuItem) continue;
+  //     for (const link of item.MenuItem.MenuItemIngredient) {
+  //       cost += link.quantity * link.Ingredient * item.quantity;
+  //     }
+  //   }
+  //   return cost;
+  // }
 
   const valid = orders.filter((o) => o.status !== "cancelled");
   const revenue = valid.reduce((sum, o) => sum + o.total, 0);
-  const totalCost = orders.reduce((sum, o) => sum + orderCost(o), 0);
-  const profit = revenue - totalCost;
+  // const totalCost = orders.reduce((sum, o) => sum + orderCost(o), 0);
+  // const profit = revenue - totalCost;
 
   const startOfDay = new Date();
   startOfDay.setHours(0, 0, 0, 0);
@@ -65,7 +65,7 @@ export default async function DashboardPage() {
 
   const byItem = new Map<string, number>();
   for (const o of orders) {
-    for (const item of o.items) {
+    for (const item of o.OrderItem) {
       byItem.set(item.name, (byItem.get(item.name) ?? 0) + item.quantity);
     }
   }
@@ -74,7 +74,7 @@ export default async function DashboardPage() {
   const metrics = [
     { label: "Today's sales", value: money(todayRevenue, currency), sub: `${today.length} orders today` },
     { label: "Total revenue", value: money(revenue, currency), sub: `${valid.length} orders all time` },
-    { label: "Estimated profit", value: money(profit, currency), sub: "revenue − ingredient costs" },
+    // { label: "Estimated profit", value: money(profit, currency), sub: "revenue − ingredient costs" },
     { label: "Avg order value", value: money(avgOrder, currency), sub: "per non-cancelled order" },
     { label: "Orders in progress", value: number(openOrders), sub: "received / preparing / ready" },
     { label: "Low stock", value: number(lowStock.length), sub: `${pendingDeliveries} deliveries pending` },

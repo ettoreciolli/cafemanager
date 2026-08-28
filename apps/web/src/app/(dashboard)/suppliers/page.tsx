@@ -81,16 +81,13 @@ export default async function SuppliersPage() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      {s.ingredients.length === 0 ? (
+                      {s.SupplierIngredient.length === 0 ? (
                         <span className="text-muted-foreground">—</span>
                       ) : (
                         <div className="flex max-w-72 flex-wrap gap-1">
-                          {s.ingredients.map((offer) => (
+                          {s.SupplierIngredient.map((offer) => (
                             <Badge key={offer.id} variant="secondary">
-                              {offer.ingredient.name}
-                              <span className="text-muted-foreground">
-                                {" "}· {money(offer.price, currency)}/{offer.ingredient.unit} · {number(offer.leadTimeDays)}d
-                              </span>
+                              {offer.Ingredient.name}
                             </Badge>
                           ))}
                         </div>

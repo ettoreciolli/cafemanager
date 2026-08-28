@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "@cafemanager/db";
 
 import { requireUser } from "@/lib/auth";
+import { randomBytes } from "crypto";
 
 export type ActionResult = { ok: boolean; message?: string };
 
@@ -43,7 +44,6 @@ export async function createIngredient(input: {
       unit: input.unit,
       stockQuantity: input.stockQuantity,
       minStock: input.minStock,
-      costPerUnit: input.costPerUnit,
     },
   });
   revalidateAll();
@@ -170,7 +170,7 @@ export async function createSupplier(input: {
       contact: input.contact || null,
       email: input.email || null,
       address: input.address || null,
-      ingredients: {
+      SupplierIngredient: {
         create: input.offers.map((o) => ({
           ingredientId: o.ingredientId,
           price: o.price,
@@ -261,6 +261,7 @@ export async function createStaffMember(input: {
   hourlyRate: number;
   active: boolean;
 }): Promise<ActionResult> {
+
   await requireUser();
   await db.staff.create({
     data: {
