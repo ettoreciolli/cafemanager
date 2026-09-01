@@ -10,6 +10,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "prisma generate --watch",
+    "db:validate": "bun --bun run prisma validate --schema ./prisma/schema.prisma",
     "db:generate": "bun --bun run prisma generate",
     "db:pull": "bun --bun run prisma db pull",
     "db:push": "bun --bun run prisma db push --accept-data-loss",
