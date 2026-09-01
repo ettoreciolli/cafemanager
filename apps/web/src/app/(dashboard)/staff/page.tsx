@@ -22,11 +22,15 @@ import { getStaff } from "@/dal";
 import { money } from "@/lib/format";
 
 import { StaffDialog } from "./staff-form";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
 export default async function StaffPage() {
   const user = await requireUser();
+  if (user.hasOnboarded === false) {
+    return redirect("/onboarding")
+  }
   const currency = user.currency;
 
   const staff = await getStaff();

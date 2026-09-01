@@ -23,13 +23,17 @@ import { getDeliveries, getSupplierIngredientPairs, getIngredientPrices } from "
 import { dateTime, number } from "@/lib/format";
 
 import { DeliveryDialog } from "./delivery-form";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
 const DELIVERY_STATUSES = ["scheduled", "in_transit", "delivered", "cancelled"];
 
 export default async function DeliveriesPage() {
-  await requireUser();
+  const user = await requireUser();
+  if (user.hasOnboarded === false) {
+    return redirect("/onboarding")
+  }
 
   const deliveries = await getDeliveries();
 

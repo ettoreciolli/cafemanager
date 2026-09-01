@@ -3,11 +3,15 @@ import { requireUser } from "@/lib/auth";
 import { money } from "@/lib/format";
 
 import { SettingsForm } from "./settings-form";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
 export default async function SettingsPage() {
   const user = await requireUser();
+  if (user.hasOnboarded === false) {
+    return redirect("/onboarding")
+  }
   const example = money(4.5, user.currency);
 
   return (

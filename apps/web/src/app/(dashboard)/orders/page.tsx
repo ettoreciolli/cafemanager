@@ -24,6 +24,7 @@ import { requireUser } from "@/lib/auth";
 import { getOrdersWithItems } from "@/dal";
 import { dateTime, money, number } from "@/lib/format";
 import OrderDisplay from "./OrderDisplay";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -31,6 +32,9 @@ export const dynamic = "force-dynamic";
 
 export default async function OrdersPage() {
   const user = await requireUser();
+  if (user.hasOnboarded === false) {
+    return redirect("/onboarding")
+  }
   const currency = user.currency;
 
   const orders = await getOrdersWithItems();

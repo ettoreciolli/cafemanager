@@ -34,7 +34,7 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
     }
   }, [params]);
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
     setPending(true);

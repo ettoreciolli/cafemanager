@@ -20,11 +20,15 @@ import {
 import { requireUser } from "@/lib/auth";
 import { getDashboardOrders, getIngredients, getDeliveries } from "@/dal";
 import { dateTime, money, number } from "@/lib/format";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
   const user = await requireUser();
+  if (user.hasOnboarded === false) {
+    return redirect("/onboarding")
+  }
   const currency = user.currency;
 
   const [orders, ingredients, deliveries] = await Promise.all([

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { ArrowLeftIcon } from "lucide-react";
 
 import { DeleteButton } from "@/components/delete-button";
@@ -37,6 +37,9 @@ export default async function OrderDetailPage({
 }) {
   const { id } = await params;
   const user = await requireUser();
+  if (user.hasOnboarded === false) {
+    return redirect("/onboarding")
+  }
   const currency = user.currency;
 
   const order = await getOrderById(id);

@@ -22,11 +22,15 @@ import { getMenuItemsWithIngredients, getIngredients } from "@/dal";
 import { money, number } from "@/lib/format";
 
 import { MenuItemDialog } from "./menu-form";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
 export default async function MenuPage() {
   const user = await requireUser();
+  if (user.hasOnboarded === false) {
+    return redirect("/onboarding")
+  }
   const currency = user.currency;
 
   const [items, ingredients] = await Promise.all([
