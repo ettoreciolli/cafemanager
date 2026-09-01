@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 
 import { db } from "@cafemanager/db";
 
-import { requireUser } from "@/lib/auth";
+import { requireUser } from "@/dal/auth";
 import { randomBytes } from "crypto";
 
 export type ActionResult = { ok: boolean; message?: string };

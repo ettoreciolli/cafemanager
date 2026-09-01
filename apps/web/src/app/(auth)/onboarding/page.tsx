@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { requireUser } from "@/lib/auth";
+import { requireUser } from "@/dal/auth";
 
 import { OnboardingForm } from "./onboarding-form";
 

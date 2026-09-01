@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import { db } from "@cafemanager/db";
 
-import { createSession } from "@/lib/auth";
+import { createSession } from "@/dal/auth";
 import { hashPassword } from "@/lib/password";
 
 export async function POST(req: Request) {

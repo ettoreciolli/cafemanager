@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { destroySession } from "@/lib/auth";
+import { destroySession } from "@/dal/auth";
 
 export async function POST() {
   await destroySession();

@@ -17,7 +17,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { deleteSupplier } from "@/lib/actions";
-import { requireUser } from "@/lib/auth";
+import { requireUser } from "@/dal/auth";
 import { getSuppliersWithIngredients, getIngredients } from "@/dal";
 import { money, number } from "@/lib/format";
 

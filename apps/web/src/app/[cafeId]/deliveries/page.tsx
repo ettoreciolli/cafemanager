@@ -18,7 +18,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { deleteDelivery, updateDeliveryStatus } from "@/lib/actions";
-import { requireUser } from "@/lib/auth";
+import { requireUser } from "@/dal/auth";
 import { getDeliveries, getSupplierIngredientPairs, getIngredientPrices } from "@/dal";
 import { dateTime, number } from "@/lib/format";
 
