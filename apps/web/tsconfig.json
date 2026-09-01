@@ -15,6 +15,7 @@
     "incremental": true,
     "declaration": true,
     "composite": true,
+    
     "plugins": [
       {
         "name": "next"
@@ -24,6 +25,7 @@
       "@/*": ["./src/*"]
     }
   },
+  "extends": "../../tsconfig.json",
   "include": [
     "next-env.d.ts",
     "**/*.ts",
@@ -33,5 +35,5 @@
     "**/*.mts"
   ],
   "exclude": ["node_modules"],
-  
+  "references": []
 }
