@@ -21,3 +21,4 @@ out/
 # os
 .DS_Store
 
+tsconfig.tsbuildinfo
