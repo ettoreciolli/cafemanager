@@ -8,7 +8,7 @@ Built with a [Turborepo](https://turborepo.com) monorepo — a Next.js dashboard
 
 ## Disclaimer
 
-This app is intended as a demo and has not been security-tested or deployed.
+This app is intended as a demo and has not been tested or deployed.
 
 ## What it does
 
