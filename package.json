@@ -19,7 +19,9 @@
     "clean": "turbo clean",
     "sim": "bun ./packages/ordersim/src/index.ts",
     "seed": "bun --cwd packages/db run db:seed",
+    "db:validate": "cd packages/db && bun run db:validate",
     "db:generate": "cd packages/db && bun run db:generate",
     "db:push": "cd packages/db && bun run db:push"
   }
 }
+
