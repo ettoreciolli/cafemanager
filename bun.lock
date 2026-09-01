@@ -5,6 +5,7 @@
     "": {
       "name": "cafemanager",
       "devDependencies": {
+        "@types/node": "^26.4.0",
         "turbo": "^2.3.0",
       },
     },
