@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
-import { requireUser } from "@/dal/auth";
-import { getOwnedCafes } from "@/dal";
+import { requireUser } from "@/lib/data/auth";
+import { getOwnedCafes } from "@/lib/data";
 
 import { SelectCafeForm } from "./select-cafe-form";
 

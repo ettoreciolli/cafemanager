@@ -22,8 +22,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { deleteOrder, updateOrderStatus } from "@/lib/actions";
-import { requireUser } from "@/dal/auth";
-import { getOrderById } from "@/dal";
+import { requireUser } from "@/lib/data/auth";
+import { getOrderById } from "@/lib/data";
 import { dateTime, money, number } from "@/lib/format";
 
 export const dynamic = "force-dynamic";

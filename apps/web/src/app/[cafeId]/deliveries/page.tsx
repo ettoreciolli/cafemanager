@@ -18,8 +18,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { deleteDelivery, updateDeliveryStatus } from "@/lib/actions";
-import { requireUser } from "@/dal/auth";
-import { getDeliveries, getSupplierIngredientPairs, getIngredientPrices } from "@/dal";
+import { requireUser } from "@/lib/data/auth";
+import { getDeliveries, getSupplierIngredientPairs, getIngredientPrices } from "@/lib/data";
 import { dateTime, number } from "@/lib/format";
 
 import { DeliveryDialog } from "./delivery-form";

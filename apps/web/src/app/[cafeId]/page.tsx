@@ -17,8 +17,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { requireUser } from "@/dal/auth";
-import { getDashboardOrders, getIngredients, getDeliveries } from "@/dal";
+import { requireUser } from "@/lib/data/auth";
+import { getDashboardOrders, getIngredients, getDeliveries } from "@/lib/data";
 import { dateTime, money, number } from "@/lib/format";
 import { redirect } from "next/navigation";
 

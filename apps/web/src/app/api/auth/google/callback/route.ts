@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 
 import { db } from "@cafemanager/db";
 
-import { createSession } from "@/dal/auth";
+import { createSession } from "@/lib/data/auth";
 import { appUrl, exchangeGoogleCode, fetchGoogleProfile } from "@/lib/oauth";
 
 export async function GET(req: Request) {

@@ -5,7 +5,7 @@ import { StatusBadge } from "@/components/status-badge";
 import { StatusSelect } from "@/components/status-select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from "@/components/ui/table";
-import { OrderWithItems } from "@/dal";
+import { OrderWithItems } from "@/lib/data";
 import { updateOrderStatus, deleteOrder } from "@/lib/actions";
 import { money, dateTime } from "@/lib/format";
 import Link from "next/link";

@@ -1,5 +1,5 @@
 import { PageHeader } from "@/components/page-header";
-import { requireUser } from "@/dal/auth";
+import { requireUser } from "@/lib/data/auth";
 import { money } from "@/lib/format";
 
 import { SettingsForm } from "./settings-form";

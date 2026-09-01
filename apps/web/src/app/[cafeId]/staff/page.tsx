@@ -17,8 +17,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { deleteStaffMember } from "@/lib/actions";
-import { requireUser } from "@/dal/auth";
-import { getStaff } from "@/dal";
+import { requireUser } from "@/lib/data/auth";
+import { getStaff } from "@/lib/data";
 import { money } from "@/lib/format";
 
 import { StaffDialog } from "./staff-form";

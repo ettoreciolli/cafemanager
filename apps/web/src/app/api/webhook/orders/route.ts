@@ -1,5 +1,5 @@
 import { db } from "@cafemanager/db";
-import { getOrderByExternalId } from "@/dal";
+import { getOrderByExternalId } from "@/lib/data";
 import { revalidatePath } from "next/cache";
 
 type IncomingItem = {

@@ -17,8 +17,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { deleteSupplier } from "@/lib/actions";
-import { requireUser } from "@/dal/auth";
-import { getSuppliersWithIngredients, getIngredients } from "@/dal";
+import { requireUser } from "@/lib/data/auth";
+import { getSuppliersWithIngredients, getIngredients } from "@/lib/data";
 import { money, number } from "@/lib/format";
 
 import { SupplierDialog } from "./supplier-form";

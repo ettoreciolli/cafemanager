@@ -17,8 +17,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { deleteIngredient } from "@/lib/actions";
-import { requireUser } from "@/dal/auth";
-import { getIngredientsWithSuppliers } from "@/dal";
+import { requireUser } from "@/lib/data/auth";
+import { getIngredientsWithSuppliers } from "@/lib/data";
 import { money, number } from "@/lib/format";
 
 import { IngredientDialog } from "./ingredient-form";
