@@ -343,3 +343,22 @@ export async function completeOnboarding(input: {
   revalidatePath("/onboarding");
   return { ok: true, message: `Workspace "${cafe.name}" is ready. Welcome!` };
 }
+
+// ---------- Cafe selection ----------
+
+export async function selectCafe(cafeId: string): Promise<ActionResult> {
+  const user = await requireUser();
+  const cafe = await db.cafe.findFirst({
+    where: { id: cafeId, ownerId: user.id },
+  });
+  if (!cafe) {
+    return { ok: false, message: "Cafe not found." };
+  }
+  await db.user.update({
+    where: { id: user.id },
+    data: { selectedCafeId: cafe.id },
+  });
+  revalidateAll();
+  revalidatePath("/select");
+  return { ok: true, message: `Now viewing ${cafe.name}` };
+}
