@@ -100,7 +100,7 @@ export async function createMenuItem(input: {
       price: input.price,
       available: input.available,
       imageUrl: input.imageUrl || null,
-      ingredients: {
+      MenuItemIngredient: {
         create: input.ingredients.map((i) => ({
           ingredientId: i.ingredientId,
           quantity: i.quantity,
