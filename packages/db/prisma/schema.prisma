@@ -153,4 +153,5 @@ model User {
   selectedCafe  Cafe?  @relation("user_selected_cafe_fk", fields: [selectedCafeId], references: [id], onDelete: SetNull)
   ownedCafes      Cafe[]  @relation("cafe_owner_fk")
   Session        Session[]
+  hasOnboarded    Boolean   @default(false)
 }
