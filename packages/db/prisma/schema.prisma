@@ -7,6 +7,19 @@ datasource db {
   provider = "postgresql"
 }
 
+model Cafe {
+  id          String   @id @default(dbgenerated("gen_random_uuid()"))
+  name        String
+  address     String
+  description String
+  phone       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  users       User[] @relation("user_selected_cafe_fk")
+  ownerId     String
+  owner       User    @relation("cafe_owner_fk", fields: [ownerId], references: [id], onDelete: Cascade)
+}
+
 model Delivery {
   id           String     @id @default(uuid())
   ingredientId String
@@ -135,6 +148,9 @@ model User {
   provider     String    @default("password")
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
-  currency     String    @default("USD")
-  Session      Session[]
+  currency       String    @default("USD")
+  selectedCafeId String?  
+  selectedCafe  Cafe?  @relation("user_selected_cafe_fk", fields: [selectedCafeId], references: [id], onDelete: SetNull)
+  ownedCafes      Cafe[]  @relation("cafe_owner_fk")
+  Session        Session[]
 }
