@@ -2,8 +2,8 @@ import "server-only";
 
 import { db } from "@cafemanager/db";
 
-export function getOwnedCafes(userId: string) {
-  return db.cafe.findMany({
+export async function getOwnedCafes(userId: string) {
+  return await db.cafe.findMany({
     where: { ownerId: userId },
     orderBy: { name: "asc" },
   });

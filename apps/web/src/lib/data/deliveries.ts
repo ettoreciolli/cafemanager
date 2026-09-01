@@ -2,8 +2,8 @@ import "server-only";
 
 import { db } from "@cafemanager/db";
 
-export function getDeliveries() {
-  return db.delivery.findMany({
+export async function getDeliveries() {
+  return await db.delivery.findMany({
     orderBy: [{ scheduledAt: "desc" }],
     include: { Ingredient: true, Supplier: true },
   });

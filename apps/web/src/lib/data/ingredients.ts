@@ -2,12 +2,12 @@ import "server-only";
 
 import { db } from "@cafemanager/db";
 
-export function getIngredients() {
-  return db.ingredient.findMany({ orderBy: { name: "asc" } });
+export async function getIngredients() {
+  return await db.ingredient.findMany({ orderBy: { name: "asc" } });
 }
 
-export function getIngredientsWithSuppliers() {
-  return db.ingredient.findMany({
+export async function getIngredientsWithSuppliers() {
+  return await db.ingredient.findMany({
     orderBy: { name: "asc" },
     include: {
       Delivery: {

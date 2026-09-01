@@ -2,25 +2,25 @@ import "server-only";
 
 import { db } from "@cafemanager/db";
 
-export function getOrdersWithItems() {
-  return db.order.findMany({
+export async function getOrdersWithItems() {
+  return await db.order.findMany({
     orderBy: [{ createdAt: "desc" }],
     include: { OrderItem: true },
   });
 }
 
-export function getOrderById(id: string) {
+export async function getOrderById(id: string) {
   return db.order.findUnique({
     where: { id },
     include: { OrderItem: true },
   });
 }
 
-export function getOrderByExternalId(externalId: string) {
+export async function getOrderByExternalId(externalId: string) {
   return db.order.findUnique({ where: { externalId } });
 }
 
-export function getDashboardOrders() {
+export async function getDashboardOrders() {
   return db.order.findMany({
     orderBy: { createdAt: "desc" },
     take: 1000,
