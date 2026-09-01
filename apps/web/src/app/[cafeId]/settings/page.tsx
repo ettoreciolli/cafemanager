@@ -12,6 +12,9 @@ export default async function SettingsPage() {
   if (user.hasOnboarded === false) {
     return redirect("/onboarding")
   }
+  if (!user.selectedCafeId) {
+    return redirect("/select")
+  }
   const example = money(4.5, user.currency);
 
   return (

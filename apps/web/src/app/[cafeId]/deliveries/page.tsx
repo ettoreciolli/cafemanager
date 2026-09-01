@@ -34,6 +34,9 @@ export default async function DeliveriesPage() {
   if (user.hasOnboarded === false) {
     return redirect("/onboarding")
   }
+  if (!user.selectedCafeId) {
+    return redirect("/select")
+  }
 
   const deliveries = await getDeliveries();
 

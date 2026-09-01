@@ -31,6 +31,9 @@ export default async function MenuPage() {
   if (user.hasOnboarded === false) {
     return redirect("/onboarding")
   }
+  if (!user.selectedCafeId) {
+    return redirect("/select")
+  }
   const currency = user.currency;
 
   const [items, ingredients] = await Promise.all([

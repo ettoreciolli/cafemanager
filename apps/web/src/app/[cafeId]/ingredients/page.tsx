@@ -31,6 +31,9 @@ export default async function IngredientsPage() {
   if (user.hasOnboarded === false) {
     return redirect("/onboarding")
   }
+  if (!user.selectedCafeId) {
+    return redirect("/select")
+  }
   const currency = user.currency;
 
   const ingredients = await getIngredientsWithSuppliers();

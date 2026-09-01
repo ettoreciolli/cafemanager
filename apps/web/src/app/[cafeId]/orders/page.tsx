@@ -35,6 +35,9 @@ export default async function OrdersPage() {
   if (user.hasOnboarded === false) {
     return redirect("/onboarding")
   }
+  if (!user.selectedCafeId) {
+    return redirect("/select")
+  }
   const currency = user.currency;
 
   const orders = await getOrdersWithItems();

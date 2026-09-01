@@ -29,6 +29,9 @@ export default async function DashboardPage() {
   if (user.hasOnboarded === false) {
     return redirect("/onboarding")
   }
+  if (!user.selectedCafeId) {
+    return redirect("/select")
+  }
   const currency = user.currency;
 
   const [orders, ingredients, deliveries] = await Promise.all([
