@@ -72,7 +72,7 @@ export default async function IngredientsPage() {
               <TableBody>
                 {ingredients.map((ing) => {
                   const low = ing.stockQuantity <= ing.minStock;
-                  const price = ing.Delivery.length === 1 ? ing.Delivery[0].price : undefined;
+                  const price = ing.Delivery.at(0)?.price
                   return (
                     <TableRow key={ing.id}>
                       <TableCell>
