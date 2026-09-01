@@ -310,3 +310,36 @@ export async function deleteStaffMember(id: string): Promise<ActionResult> {
   revalidateAll();
   return { ok: true };
 }
+
+// ---------- Onboarding ----------
+
+export async function completeOnboarding(input: {
+  name: string;
+  address: string;
+  description: string;
+  phone?: string | null;
+}): Promise<ActionResult> {
+  const user = await requireUser();
+  if (user.hasOnboarded) {
+    return { ok: true, message: "Your workspace is already set up." };
+  }
+  if (!input.name.trim() || !input.address.trim()) {
+    return { ok: false, message: "Cafe name and address are required." };
+  }
+  const cafe = await db.cafe.create({
+    data: {
+      name: input.name.trim(),
+      address: input.address.trim(),
+      description: input.description.trim() || "",
+      phone: input.phone?.trim() || null,
+      owner: { connect: { id: user.id } },
+    },
+  });
+  await db.user.update({
+    where: { id: user.id },
+    data: { selectedCafeId: cafe.id, hasOnboarded: true },
+  });
+  revalidateAll();
+  revalidatePath("/onboarding");
+  return { ok: true, message: `Workspace "${cafe.name}" is ready. Welcome!` };
+}
