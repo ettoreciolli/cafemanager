@@ -37,9 +37,11 @@ const NAV = [
 
 export function AppShell({
   userName,
+  cafeId,
   children,
 }: {
   userName: string;
+  cafeId: string,
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
@@ -89,7 +91,7 @@ export function AppShell({
           {NAV.map((item) => (
             <Link
               key={item.href}
-              href={item.href}
+              href={"/cafe/" + cafeId + item.href}
               title={item.label}
               className={cn(
                 "flex items-center rounded-lg text-sm justify-end font-medium transition-colors h-8 p-2 mr-2",

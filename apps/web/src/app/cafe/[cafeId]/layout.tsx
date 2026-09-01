@@ -15,8 +15,12 @@ export default async function DashboardLayout({
     redirect("/login");
   }
 
+  if (!session.User.selectedCafeId) {
+    redirect("/select")
+  }
+
   return (
-    <AppShell userName={session.User.name ?? session.User.email}>
+    <AppShell userName={session.User.name ?? session.User.email} cafeId={session.User.selectedCafeId}>
       {children}
     </AppShell>
   );

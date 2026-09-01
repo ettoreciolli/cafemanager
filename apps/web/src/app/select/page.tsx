@@ -13,7 +13,7 @@ export default async function SelectPage() {
     redirect("/onboarding");
   }
   if (user.selectedCafeId) {
-    redirect(`/${user.selectedCafeId}`);
+    redirect(`/cafe/${user.selectedCafeId}/dashboard`);
   }
 
   const cafes = await getOwnedCafes(user.id);
